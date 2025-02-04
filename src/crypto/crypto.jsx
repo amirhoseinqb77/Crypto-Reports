@@ -10,17 +10,14 @@ const CryptoReport = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          'https://min-api.cryptocompare.com/data/v2/histohour',
-          {
-            params: {
-              fsym: 'BTC',
-              tsym: 'USD',
-              limit: 10,
-            },
-          }
+        const response = await fetch(
+          'https://min-api.cryptocompare.com/data/v2/histohour?fsym=BTC&tsym=USD&limit=10'
         );
-        const formattedData = response.data.Data.Data.map((item, index) => ({
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const result = await response.json();
+        const formattedData = result.Data.Data.map((item, index) => ({
           time: `Time ${index + 1}`,
           low: item.low,
           high: item.high,
@@ -28,7 +25,7 @@ const CryptoReport = () => {
         }));
         setData(formattedData);
       } catch (err) {
-        setError('Failed to fetch data');
+        setError(err.message);
       } finally {
         setLoading(false);
       }
