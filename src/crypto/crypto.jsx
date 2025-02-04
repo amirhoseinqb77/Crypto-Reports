@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import axios from 'axios';
+
 
 const CryptoReport = () => {
   const [data, setData] = useState([]);
